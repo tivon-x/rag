@@ -1,0 +1,11 @@
+faiss-cpu>=1.11.0
+jieba>=0.42.1
+langchain[openai]>=0.3.26
+langchain-community>=0.3.26
+langchain-huggingface>=0.3.0
+nltk>=3.9.1
+rank-bm25>=0.2.2
+spacy>=3.8.7
+langchain-groq>=0.3.4
+cohere>=5.15.0
+gradio>=5.34.2
