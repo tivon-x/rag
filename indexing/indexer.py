@@ -88,7 +88,7 @@ class Indexer:
         # 实例化
         return chunker(**params)
 
-    def __get_vectorstore(self) -> VectorStore:
+    def __get_vectorstore(self, config: dict) -> VectorStore:
         """
         获取向量存储实例。
 

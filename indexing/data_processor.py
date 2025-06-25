@@ -30,8 +30,9 @@ class PdfProcessor(DataProcessor):
             for page in loader.lazy_load():
                 page.page_content = clean_text(page.page_content)
                 pages.append(page)
+            return pages
         except Exception as e:
-                raise ValueError(f"PdfProcessor error: {e}")
+            raise ValueError(f"PdfProcessor error: {e}")
         
 
 

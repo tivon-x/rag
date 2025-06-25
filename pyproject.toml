@@ -15,6 +15,7 @@ dependencies = [
     "spacy>=3.8.7",
     "langchain-groq>=0.3.4",
     "cohere>=5.15.0",
+    "gradio>=5.34.2",
 ]
 
 
