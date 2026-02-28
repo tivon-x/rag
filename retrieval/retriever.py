@@ -1,6 +1,6 @@
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.callbacks import CallbackManagerForRetrieverRun
-from langchain.docstore.document import Document
+from langchain_core.documents import Document
 import numpy as np
 from indexing.verctorstore import VectorStore
 from rank_bm25 import BM25Okapi

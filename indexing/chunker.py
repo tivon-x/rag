@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from abc import ABC, abstractmethod
-from langchain.docstore.document import Document
+from langchain_core.documents import Document
 import spacy
 import nltk
 from nltk.tokenize import sent_tokenize

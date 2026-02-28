@@ -1,8 +1,8 @@
 import os
 
-from langchain.retrievers import  ContextualCompressionRetriever
+from langchain_classic.retrievers import ContextualCompressionRetriever
 from langchain_core.retrievers import BaseRetriever
-from langchain.retrievers.document_compressors import CohereRerank
+from langchain_classic.retrievers.document_compressors import CohereRerank
 
 
 def get_reranker(

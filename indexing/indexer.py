@@ -4,7 +4,7 @@
 from pathlib import Path
 from typing import List
 import os
-from langchain.docstore.document import Document
+from langchain_core.documents import Document
 from rank_bm25 import BM25Okapi
 
 from indexing.bm25_index import create_bm25_index

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from abc import ABC, abstractmethod
-from langchain.docstore.document import Document
+from langchain_core.documents import Document
 import re
 from langchain_community.document_loaders import (
     PyPDFLoader, 

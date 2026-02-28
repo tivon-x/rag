@@ -1,6 +1,6 @@
 
 from rank_bm25 import BM25Okapi
-from langchain.docstore.document import Document
+from langchain_core.documents import Document
 
 
 def create_bm25_index(documents: list[Document]) -> BM25Okapi:

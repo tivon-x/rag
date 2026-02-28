@@ -4,7 +4,7 @@ import faiss
 from langchain_community.docstore.in_memory import InMemoryDocstore
 from langchain_community.vectorstores import FAISS
 from langchain_core.embeddings import Embeddings
-from langchain.docstore.document import Document
+from langchain_core.documents import Document
 from uuid import uuid4
 
 from langchain_core.vectorstores.base import VectorStoreRetriever

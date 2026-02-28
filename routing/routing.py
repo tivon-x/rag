@@ -1,7 +1,20 @@
 
-from langchain.utils.math import cosine_similarity
+import numpy as np
 from langchain_core.prompts import PromptTemplate
 from indexing.embeddings import get_hf_embeddings
+
+
+def cosine_similarity(X, Y):
+    """计算余弦相似度"""
+    X = np.array(X)
+    Y = np.array(Y)
+    # 计算点积
+    dot_product = np.dot(X, Y.T)
+    # 计算范数
+    norm_X = np.linalg.norm(X, axis=1, keepdims=True)
+    norm_Y = np.linalg.norm(Y, axis=1, keepdims=True)
+    # 计算余弦相似度
+    return dot_product / (norm_X * norm_Y.T)
 
 
 def semantic_routing(query: str, config: dict):

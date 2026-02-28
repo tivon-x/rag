@@ -4,6 +4,8 @@ import json
 from typing import Optional, Tuple, List, Dict, Any
 import warnings
 
+from dotenv import load_dotenv
+
 # 导入各个模块
 from indexing.indexer import Indexer
 from indexing.verctorstore import VectorStore
@@ -19,9 +21,11 @@ from query.query_translation import (
 from routing.routing import semantic_routing
 from utils.logging import setup_logging
 from rank_bm25 import BM25Okapi
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
+
+load_dotenv()
 
 warnings.filterwarnings("ignore")
 
@@ -42,9 +46,9 @@ class RAGApplication:
         return {
             "llm": {
                 "provider": "openai",
-                "model": "gpt-3.5-turbo",
-                "api_key": "",
-                "api_base": "https://api.openai.com/v1",
+                "model": os.getenv("OPENAI_API_MODEL"),
+                "api_key": os.getenv("OPENAI_API_KEY"),
+                "api_base": os.getenv("OPENAI_API_BASE"),
                 "model_config": {
                     "temperature": 0.7,
                     "max_tokens": 1000
