@@ -17,8 +17,6 @@ from mappers.mappers import LOADER_MAPPING, CHUNER_MAPPING
 class Indexer:
     def __init__(self, config: dict):
         self.config = config
-        self.Chunker: Chunker = None
-        self.vector_store: VectorStore = None
         self._init_components()
 
     def _init_components(self):
@@ -32,14 +30,14 @@ class Indexer:
         # 初始化向量数据库
         self.vector_store = self.__get_vectorstore(self.config)
 
-    def __get_data_processor(self, file_path: str) -> List[tuple[str, str]]:
+    def __get_data_processor(self, file_path: str) -> List[tuple[List[Document], str]]:
         """
         根据文件路径获取数据处理器，返回处理后的数据和文件类型。
         Args:
           file_path (str): 文件路径
 
         Returns:
-          List[tuple[str, str]]: 处理后的数据和文件类型的列表
+          List[tuple[List[Document], str]]: 处理后的数据和文件类型的列表
         """
 
         # 递归处理文件夹
