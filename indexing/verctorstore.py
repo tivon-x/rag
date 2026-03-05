@@ -22,11 +22,11 @@ class VectorStore:
         if persist_directory and os.path.exists(persist_directory):
             self.__vectorstore = FAISS.load_local(persist_directory, embeddings, allow_dangerous_deserialization=True)
         else:
-            index = faiss.IndexFlatL2(embeddings.embed_query("test").shape[0])
+            index = faiss.IndexFlatL2(len(embeddings.embed_query("test")))
             self.__vectorstore = FAISS(
+                embedding_function=embeddings.embed_query,
                 index=index,
                 docstore=InMemoryDocstore({}),
-                embeddings=embeddings,
                 index_to_docstore_id={}
             )
 

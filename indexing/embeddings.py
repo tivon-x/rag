@@ -11,7 +11,7 @@ from langchain_core.embeddings import Embeddings
 def get_hf_embeddings(
     model_name: str = "sentence-transformers/all-MiniLM-L6-v2",
     cache_folder: str = "./hf-cache",
-    model_kwargs: dict = None,
+    model_kwargs: dict | None = None,
 ) -> HuggingFaceEmbeddings:
     """
     获取 HuggingFace 的嵌入模型。
@@ -53,7 +53,7 @@ def get_cloud_embeddings(
     if not api_base:
         raise ValueError("API base must be provided for cloud embeddings.")
 
-    return OpenAIEmbeddings(model=model, api_key=api_key, base_url=api_base, **kwargs)
+    return OpenAIEmbeddings(model=model, api_key=api_key, base_url=api_base, **kwargs) # type: ignore
 
 
 def get_embeddings(config: dict) -> Embeddings:
