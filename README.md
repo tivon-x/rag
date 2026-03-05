@@ -12,7 +12,7 @@
 - **语义路由**：基于查询内容自动选择提示模板
 
 ### 🧠 多模型支持
-- **LLM提供商**：OpenAI、Groq
+- **LLM**：OpenAI兼容模式（支持任意兼容OpenAI API的服务商）
 - **嵌入模型**：HuggingFace Transformers系列
 - **重排序模型**：Cohere系列
 
@@ -93,12 +93,10 @@ pip install -r requirements.txt
 创建`.env`文件并配置必要的API密钥：
 
 ```bash
-# OpenAI配置
+# LLM配置（OpenAI兼容模式）
+LLM_MODEL=deepseek-ai/DeepSeek-V3.2
 OPENAI_API_KEY=your_openai_api_key
 OPENAI_API_BASE=https://api.openai.com/v1
-
-# Groq配置（可选）
-GROQ_API_KEY=your_groq_api_key
 
 # Cohere配置（用于重排序，可选）
 COHERE_API_KEY=your_cohere_api_key
@@ -129,7 +127,6 @@ python main.py
 ```json
 {
   "llm": {
-    "provider": "openai",
     "model": "gpt-3.5-turbo",
     "api_key": "your_api_key",
     "api_base": "https://api.openai.com/v1",
@@ -213,7 +210,6 @@ python main.py
 ### LLM配置
 ```json
 {
-  "provider": "openai|groq",
   "model": "模型名称",
   "api_key": "API密钥",
   "api_base": "API端点",

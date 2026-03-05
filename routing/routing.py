@@ -1,7 +1,7 @@
 
 import numpy as np
 from langchain_core.prompts import PromptTemplate
-from indexing.embeddings import get_hf_embeddings
+from indexing.embeddings import get_embeddings
 
 
 def cosine_similarity(X, Y):
@@ -19,8 +19,7 @@ def cosine_similarity(X, Y):
 
 def semantic_routing(query: str, config: dict):
     embedding_config = config.get("embedding", {})
-    embeddings = get_hf_embeddings(embedding_config.get("model_name", "sentence-transformers/all-MiniLM-L6-v2"),
-                                       embedding_config.get("model_kwargs", {}))
+    embeddings = get_embeddings(embedding_config)
     
     prompt_templates: list[str] = config.get("prompt_templates", [])
     prompt_embeddings = embeddings.embed_documents(

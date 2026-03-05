@@ -8,7 +8,7 @@ from langchain_core.documents import Document
 from rank_bm25 import BM25Okapi
 
 from indexing.bm25_index import create_bm25_index
-from indexing.embeddings import get_hf_embeddings
+from indexing.embeddings import get_embeddings
 from indexing.verctorstore import VectorStore
 from .chunker import Chunker
 from mappers.mappers import LOADER_MAPPING, CHUNER_MAPPING
@@ -47,7 +47,7 @@ class Indexer:
             results = []
             for filename in os.listdir(file_path):
                 # 跳过隐藏文件
-                if filename.startswith('.'):
+                if filename.startswith("."):
                     continue
                 full_path = os.path.join(file_path, filename)
                 try:
@@ -61,15 +61,16 @@ class Indexer:
             return results
         # 如果是文件，则根据后缀名选择处理器
         else:
-            ext = Path(file_path).suffix.lower() # 获取文件后缀名
+            ext = Path(file_path).suffix.lower()  # 获取文件后缀名
             # 根据后缀名选择处理器
             loader_mapping = LOADER_MAPPING.get(ext)
             if loader_mapping is None:
                 return []
             processor, loader_args = loader_mapping
             # 返回处理后的文件 + 后缀用来表示是图像还是文本
-            return [(processor(**loader_args).process(file_path), file_path.split('.')[-1])]
-
+            return [
+                (processor(**loader_args).process(file_path), file_path.split(".")[-1])
+            ]
 
     def __get_chunker(self) -> Chunker:
         """
@@ -80,7 +81,7 @@ class Indexer:
         """
         chunker_config = self.config.get("chunker", {})
         # 获取分块器类型和参数
-        chunker_type = chunker_config.get("type", "recursive") # 默认使用递归分块器
+        chunker_type = chunker_config.get("type", "recursive")  # 默认使用递归分块器
         params = chunker_config.get("params", {})
         chunker = CHUNER_MAPPING.get(chunker_type)
         if chunker is None:
@@ -95,14 +96,16 @@ class Indexer:
         Returns:
             VectorStore: 向量存储实例
         """
-        embedding_config = self.config.get("embedding", {})
-        embeddings = get_hf_embeddings(embedding_config.get("model_name", "sentence-transformers/all-MiniLM-L6-v2"),
-                                       embedding_config.get("model_kwargs", {}))
+        # 使用统一的嵌入获取函数，优先云端其次 HuggingFace
+        embeddings = get_embeddings(config)
 
         vectorstore_config = self.config.get("vectorstore", {})
-        return VectorStore(embeddings=embeddings, persist_directory=vectorstore_config.get("persist_directory", None))
+        return VectorStore(
+            embeddings=embeddings,
+            persist_directory=vectorstore_config.get("persist_directory", None),
+        )
 
-    def index(self, file_path: str) -> None |  tuple[VectorStore, BM25Okapi]:
+    def index(self, file_path: str) -> None | tuple[VectorStore, BM25Okapi]:
         """
         索引文件
         Args:
@@ -114,12 +117,12 @@ class Indexer:
         datas = self.__get_data_processor(file_path)
 
         chunks: list[Document] = []
-        for (data, type) in datas:
-            if type in ['jpg', 'jpeg', 'png']:
-                pass # 多模态信息除了图像就是文本, 先不处理图像
+        for data, type in datas:
+            if type in ["jpg", "jpeg", "png"]:
+                pass  # 多模态信息除了图像就是文本, 先不处理图像
             else:
                 chunks += self.Chunker.chunk(data)
-        
+
         if not chunks:
             print("没有可分块的数据")
             return None
@@ -130,8 +133,3 @@ class Indexer:
         bm25_index = create_bm25_index(chunks)
 
         return self.vector_store, bm25_index
-        
-        
-
-    
-    
